@@ -1,4 +1,6 @@
-package com.keepcoding.navi.dragonballapp.domain
+package com.keepcoding.navi.dragonballapp.domain.repository
+
+import com.keepcoding.navi.dragonballapp.domain.Hero
 
 interface Repository {
     suspend fun getHeros(): List<Hero>

@@ -1,6 +1,7 @@
 package com.keepcoding.navi.dragonballapp.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.keepcoding.navi.dragonballapp.databinding.FragmentLoginBinding
+import androidx.navigation.fragment.findNavController
+import com.keepcoding.navi.dragonballapp.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
@@ -42,13 +47,15 @@ class LoginFragment : Fragment() {
                     showLoading(true)
                     buttonLoginState(false)
                 }
-                is LoginState.Error -> {
+                is LoginState.Failure -> {
                     showLoading(false)
                     buttonLoginState(true)
                     showMessage(loginState.message)
                 }
-                is LoginState.LoginSuccess -> {
-
+                is LoginState.Success -> {
+                    Log.d("LoginFragment",loginState.token)
+                    viewModel.saveAuthentication(loginState.token)
+                    findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 }
             }
 

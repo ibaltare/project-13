@@ -1,16 +1,21 @@
 package com.keepcoding.navi.dragonballapp.ui.login
 
-import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.keepcoding.navi.dragonballapp.R
+import com.keepcoding.navi.dragonballapp.data.local.AuthToken
+import com.keepcoding.navi.dragonballapp.domain.repository.LoginRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: LoginRepository) : ViewModel() {
 
     private val _state : MutableLiveData<LoginState> by lazy {
         MutableLiveData<LoginState>()
@@ -20,10 +25,20 @@ class LoginViewModel : ViewModel() {
 
     fun doLogin(user: String, password: String){
         if(user.isBlank() || password.isBlank()){
-            setValueOnMainThread(LoginState.Error("Resources.getSystem().getString(R.string.error_login_msg)"))
+            setValueOnMainThread(LoginState.Failure("Usuario o contraseña incorrecto"))
         }else{
-            Log.d("LoginViewModel", "$user : $password ")
+            setValueOnMainThread(LoginState.Loading)
+            viewModelScope.launch {
+                val response = withContext(Dispatchers.IO){
+                    repository.doLogin(user,password)
+                }
+                _state.value = response
+            }
         }
+    }
+
+    fun saveAuthentication(token: String){
+        repository.saveToken(token)
     }
 
     fun setValueOnMainThread(value: LoginState) {
@@ -31,6 +46,5 @@ class LoginViewModel : ViewModel() {
             _state.value = value
         }
     }
-
 
 }
