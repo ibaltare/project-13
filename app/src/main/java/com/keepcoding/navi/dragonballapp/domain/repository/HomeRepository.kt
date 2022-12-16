@@ -1,4 +1,9 @@
 package com.keepcoding.navi.dragonballapp.domain.repository
 
-class HomeRepository {
+import com.keepcoding.navi.dragonballapp.domain.Hero
+import com.keepcoding.navi.dragonballapp.ui.home.HomeState
+
+interface HomeRepository {
+    suspend fun getRemoteHeroes(): HomeState
+    suspend fun getLocalHeroes(): HomeState
 }

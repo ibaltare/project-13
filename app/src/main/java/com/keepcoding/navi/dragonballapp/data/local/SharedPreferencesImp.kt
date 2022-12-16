@@ -18,7 +18,7 @@ class SharedPreferencesImp @Inject constructor(private val sharedPreference: Sha
     }
 
     override fun getToken(): String? {
-        return sharedPreference.getString(SHARED_PREFERENCES_TOKEN, "")
+        return sharedPreference.getString(SHARED_PREFERENCES_TOKEN, null)
     }
 
 }

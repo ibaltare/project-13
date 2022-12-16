@@ -1,5 +1,6 @@
 package com.keepcoding.navi.dragonballapp.dependencyinjection
 
+import com.keepcoding.navi.dragonballapp.data.local.AuthToken
 import com.keepcoding.navi.dragonballapp.data.remote.DragonBallAPI
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -31,21 +32,25 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor,authToken: AuthToken): OkHttpClient {
 
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val originalRequest = chain.request()
+                var token = authToken.getToken()
+                val newRequest = chain.request().newBuilder().apply {
+                    header("Content-Type", "Application/Json")
+                    if (token != null && !token.isBlank()) header("Authorization", "Bearer $token")
+                }.build()
+                chain.proceed(newRequest)
+
+                /*val originalRequest = chain.request()
                 val newRequest = originalRequest.newBuilder()
 //                .header("Authorization", "Bearer $TOKEN")
                     .header("Content-Type", "Application/Json")
                     .build()
-                chain.proceed(newRequest)
+
+                chain.proceed(newRequest)*/
             }
-            /*.authenticator { _, response ->
-                response.request.newBuilder()
-                    .header("Authorization", "Bearer $TOKEN").build()
-            }*/
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
