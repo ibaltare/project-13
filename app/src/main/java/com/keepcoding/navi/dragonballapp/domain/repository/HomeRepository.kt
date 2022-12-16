@@ -5,5 +5,5 @@ import com.keepcoding.navi.dragonballapp.ui.home.HomeState
 
 interface HomeRepository {
     suspend fun getRemoteHeroes(): HomeState
-    suspend fun getLocalHeroes(): HomeState
+    suspend fun getHeroes(): HomeState
 }

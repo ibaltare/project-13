@@ -12,14 +12,14 @@ interface HeroDAO {
     fun loadAllByFavorite(favorite: Boolean): List<HeroEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(hero: List<HeroEntity>)
+    fun insertAll(heroes: List<HeroEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHero(hero: HeroEntity)
 
     @Update
-    suspend fun updateHero(hero: HeroEntity)
+    fun updateHero(hero: HeroEntity)
 
     @Delete
-    suspend fun deleteHeroes(vararg users: HeroEntity)
+    fun deleteHeroes(heroes: List<HeroEntity>)
 }

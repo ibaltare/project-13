@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
                     showMessage(homeState.message)
                 }
                 is HomeState.Success -> {
+                    showLoading(false)
                     adapter.submitList(homeState.heroes)
                     //findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 }

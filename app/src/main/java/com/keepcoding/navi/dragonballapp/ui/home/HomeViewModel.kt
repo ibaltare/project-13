@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.keepcoding.navi.dragonballapp.domain.Hero
 import com.keepcoding.navi.dragonballapp.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +24,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     fun getHeroes(){
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO){
-                repository.getRemoteHeroes()
+                repository.getHeroes()
             }
             _state.value = result
         }

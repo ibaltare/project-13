@@ -7,4 +7,5 @@ interface LocalDataSource {
     fun insertHeroes(heroDto: List<HeroEntity>)
     fun updateHero(hero: HeroEntity)
     fun deleteHeroes(localHeroes: List<HeroEntity>)
+    fun getHeroesByFavorite(favorite: Boolean): List<HeroEntity>
 }

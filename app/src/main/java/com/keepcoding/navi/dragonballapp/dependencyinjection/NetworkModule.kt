@@ -36,20 +36,12 @@ object NetworkModule {
 
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
-                var token = authToken.getToken()
+                val token = authToken.getToken()
                 val newRequest = chain.request().newBuilder().apply {
                     header("Content-Type", "Application/Json")
-                    if (token != null && !token.isBlank()) header("Authorization", "Bearer $token")
+                    if (token != null && token.isNotBlank()) header("Authorization", "Bearer $token")
                 }.build()
                 chain.proceed(newRequest)
-
-                /*val originalRequest = chain.request()
-                val newRequest = originalRequest.newBuilder()
-//                .header("Authorization", "Bearer $TOKEN")
-                    .header("Content-Type", "Application/Json")
-                    .build()
-
-                chain.proceed(newRequest)*/
             }
             .addInterceptor(httpLoggingInterceptor)
             .build()
