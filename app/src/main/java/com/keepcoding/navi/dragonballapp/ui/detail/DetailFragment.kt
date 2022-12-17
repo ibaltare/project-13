@@ -1,19 +1,18 @@
 package com.keepcoding.navi.dragonballapp.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.keepcoding.navi.dragonballapp.R
 import com.keepcoding.navi.dragonballapp.databinding.FragmentDetailBinding
 import com.keepcoding.navi.dragonballapp.domain.HeroDetail
-import com.keepcoding.navi.dragonballapp.ui.home.HomeState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +39,9 @@ class DetailFragment : Fragment() {
     }
 
     private fun setListeners() {
-
+        binding.fabLike.setOnClickListener {
+            viewModel.setHeroLike()
+        }
     }
 
     private fun setObservers() {
@@ -59,6 +60,13 @@ class DetailFragment : Fragment() {
                 is DetailState.SuccessHeroLocalization -> {
                     showLoading(false)
                 }
+            }
+        }
+
+        viewModel.like.observe(viewLifecycleOwner){ like ->
+            when(like){
+                true -> binding.fabLike.backgroundTintList = AppCompatResources.getColorStateList(binding.root.context, R.color.orange)
+                false -> binding.fabLike.backgroundTintList = AppCompatResources.getColorStateList(binding.root.context, R.color.teal_200)
             }
         }
     }

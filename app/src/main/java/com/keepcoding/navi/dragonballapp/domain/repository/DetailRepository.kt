@@ -9,5 +9,5 @@ interface DetailRepository {
     suspend fun getLocalHero(heroId: String): HeroDetail
     suspend fun setHeroLike(hero: String)
     suspend fun getHeroLocalizations(heroId: String): DetailState
-    suspend fun updateLocalHero(hero: HeroEntity)
+    suspend fun updateLocalHero(hero: HeroDetail)
 }

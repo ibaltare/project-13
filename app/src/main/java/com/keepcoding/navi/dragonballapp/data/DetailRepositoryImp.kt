@@ -2,6 +2,7 @@ package com.keepcoding.navi.dragonballapp.data
 
 import com.keepcoding.navi.dragonballapp.data.local.LocalDataSource
 import com.keepcoding.navi.dragonballapp.data.local.model.HeroEntity
+import com.keepcoding.navi.dragonballapp.data.mappers.EntityMapper
 import com.keepcoding.navi.dragonballapp.data.mappers.LocalizationMapper
 import com.keepcoding.navi.dragonballapp.data.mappers.PresentationMapper
 import com.keepcoding.navi.dragonballapp.data.remote.RemoteDataSource
@@ -15,7 +16,8 @@ class DetailRepositoryImp @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val presentationMapper: PresentationMapper,
-    private val localizationMapper: LocalizationMapper
+    private val localizationMapper: LocalizationMapper,
+    private val entityMapper: EntityMapper,
 ): DetailRepository {
 
     override suspend fun getLocalHero(heroId: String): HeroDetail {
@@ -40,7 +42,7 @@ class DetailRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun updateLocalHero(hero: HeroEntity) {
-        localDataSource.updateHero(hero)
+    override suspend fun updateLocalHero(hero: HeroDetail) {
+        localDataSource.updateHero(entityMapper.pdMap(hero))
     }
 }
