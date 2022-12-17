@@ -56,6 +56,9 @@ class DetailFragment : Fragment() {
                 is DetailState.SuccessLocalhero -> {
                     setHeroDetail(detailState.hero)
                 }
+                is DetailState.SuccessHeroLocalization -> {
+                    showLoading(false)
+                }
             }
         }
     }
@@ -73,7 +76,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun showLoading(show: Boolean){
-        //binding.pbHome.visibility = if (show) View.VISIBLE else View.GONE
+        binding.pbDetail.visibility = if (show) View.VISIBLE else View.GONE
     }
     override fun onDestroyView() {
         super.onDestroyView()

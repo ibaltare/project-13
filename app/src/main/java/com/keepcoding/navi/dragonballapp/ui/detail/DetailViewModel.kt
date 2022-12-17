@@ -33,6 +33,11 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
                 repository.getLocalHero(heroId)
             }
             _state.value = DetailState.SuccessLocalhero(hero)
+            val localization = withContext(Dispatchers.IO){
+                repository.getHeroLocalizations(hero.id)
+            }
+            Log.d("LOCALIZATIONS",localization.toString())
+            _state.value = DetailState.SuccessHeroLocalization(null)
         }
     }
 }
