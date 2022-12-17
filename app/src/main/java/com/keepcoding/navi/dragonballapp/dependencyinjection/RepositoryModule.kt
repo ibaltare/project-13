@@ -1,5 +1,6 @@
 package com.keepcoding.navi.dragonballapp.dependencyinjection
 
+import com.keepcoding.navi.dragonballapp.data.DetailRepositoryImp
 import com.keepcoding.navi.dragonballapp.data.HomeRepositoryImp
 import com.keepcoding.navi.dragonballapp.data.LoginRepositoryImp
 import com.keepcoding.navi.dragonballapp.data.local.AuthToken
@@ -8,6 +9,7 @@ import com.keepcoding.navi.dragonballapp.data.local.LocalDataSourceImp
 import com.keepcoding.navi.dragonballapp.data.local.SharedPreferencesImp
 import com.keepcoding.navi.dragonballapp.data.remote.RemoteDataSource
 import com.keepcoding.navi.dragonballapp.data.remote.RemoteDataSourceImp
+import com.keepcoding.navi.dragonballapp.domain.repository.DetailRepository
 import com.keepcoding.navi.dragonballapp.domain.repository.HomeRepository
 import com.keepcoding.navi.dragonballapp.domain.repository.LoginRepository
 import dagger.Binds
@@ -32,5 +34,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindLocalDataSource(localDataSourceImpl: LocalDataSourceImp): LocalDataSource
+
+    @Binds
+    abstract fun bindDetailRepository(detailRepositoryImpl: DetailRepositoryImp): DetailRepository
 
 }

@@ -37,4 +37,9 @@ class LoginRepositoryImp @Inject constructor(
         authToken.saveToken(token)
     }
 
+    override fun authTokenExist(): Boolean {
+        if (authToken.getToken() != null) return true
+        return false
+    }
+
 }

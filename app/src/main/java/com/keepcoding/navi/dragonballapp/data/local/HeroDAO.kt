@@ -11,6 +11,9 @@ interface HeroDAO {
     @Query("SELECT * FROM hero WHERE favorite = :favorite")
     fun loadAllByFavorite(favorite: Boolean): List<HeroEntity>
 
+    @Query("SELECT * FROM hero WHERE id = :id")
+    fun getHeroById(id: String): HeroEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(heroes: List<HeroEntity>)
 
@@ -20,6 +23,6 @@ interface HeroDAO {
     @Update
     fun updateHero(hero: HeroEntity)
 
-    @Delete
-    fun deleteHeroes(heroes: List<HeroEntity>)
+    @Query("DELETE FROM hero")
+    fun deleteHeroes()
 }

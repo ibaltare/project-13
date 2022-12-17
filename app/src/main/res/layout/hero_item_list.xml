@@ -25,6 +25,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars"
             tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/hero_like"
+            android:layout_width="@dimen/padding_32"
+            android:layout_height="@dimen/padding_32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/padding_8"
+            android:layout_marginRight="@dimen/padding_8"
+            android:src="@drawable/ic_like_circle"
+            app:tint="@color/orange"
+            tools:ignore="ContentDescription" />
         <TextView
             android:id="@+id/hero_name"
             android:layout_width="match_parent"

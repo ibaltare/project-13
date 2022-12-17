@@ -17,11 +17,15 @@ class LocalDataSourceImp @Inject constructor(private val dao:HeroDAO): LocalData
         dao.updateHero(hero)
     }
 
-    override fun deleteHeroes(localHeroes: List<HeroEntity>) {
-        dao.deleteHeroes(localHeroes)
+    override fun deleteHeroes() {
+        dao.deleteHeroes()
     }
 
     override fun getHeroesByFavorite(favorite: Boolean): List<HeroEntity> {
         return dao.loadAllByFavorite(favorite)
+    }
+
+    override fun getHeroById(id: String): HeroEntity {
+        return dao.getHeroById(id)
     }
 }

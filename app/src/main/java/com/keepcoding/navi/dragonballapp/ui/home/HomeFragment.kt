@@ -22,13 +22,9 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private val binding get() = _binding!!
     private val adapter = HeroListAdapter {
-        Log.d("Adapter click", it.toString())
-        /*findNavController().navigate(
-            SuperHeroListFragmentDirections.actionSuperHeroListFragmentToDetailFragment(
-                it,
-                it.name
-            )
-        )*/
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
+        )
     }
 
     override fun onCreateView(
@@ -45,13 +41,12 @@ class HomeFragment : Fragment() {
         setListeners()
         createRecycler()
         viewModel.getHeroes()
-        /*binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_HomeFragment_to_DetailFragment)
-        }*/
     }
 
-    private fun setListeners() {
 
+    private fun setListeners() {
+        binding.fabExit.setOnClickListener { viewModel.Logout() }
+        binding.fabFavorite.setOnClickListener {  }
     }
 
     private fun setObservers() {
@@ -67,10 +62,11 @@ class HomeFragment : Fragment() {
                 is HomeState.Success -> {
                     showLoading(false)
                     adapter.submitList(homeState.heroes)
-                    //findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                }
+                is HomeState.Logout -> {
+                    activity?.finish()
                 }
             }
-
         }
     }
 

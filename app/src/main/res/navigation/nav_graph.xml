@@ -37,6 +37,10 @@
         <action
             android:id="@+id/action_DetailFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
+        <argument
+            android:name="heroId"
+            app:nullable="false"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/FavoriteFragment"

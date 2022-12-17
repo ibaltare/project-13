@@ -1,6 +1,7 @@
 package com.keepcoding.navi.dragonballapp.data
 
 import android.util.Log
+import com.keepcoding.navi.dragonballapp.data.local.AuthToken
 import com.keepcoding.navi.dragonballapp.data.local.LocalDataSource
 import com.keepcoding.navi.dragonballapp.data.mappers.EntityMapper
 import com.keepcoding.navi.dragonballapp.data.mappers.PresentationMapper
@@ -13,6 +14,7 @@ import javax.inject.Inject
 class HomeRepositoryImp @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
+    private val authToken: AuthToken,
     private val presentationMapper: PresentationMapper,
     private val entityMapper: EntityMapper) : HomeRepository {
 
@@ -42,6 +44,11 @@ class HomeRepositoryImp @Inject constructor(
             return HomeState.Success(presentationMapper.entityMap(heroes))
         }
         return getRemoteHeroes()
+    }
+
+    override suspend fun deleteLocalData() {
+        authToken.deleteToken()
+        localDataSource.deleteHeroes()
     }
 
 }

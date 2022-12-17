@@ -30,8 +30,14 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validateAuthToken()
         setObservers()
         setListeners()
+    }
+
+    private fun validateAuthToken() {
+        if (viewModel.authTokenExist())
+            findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
     }
 
     private fun setListeners() {
@@ -53,7 +59,6 @@ class LoginFragment : Fragment() {
                     showMessage(loginState.message)
                 }
                 is LoginState.Success -> {
-                    Log.d("LoginFragment",loginState.token)
                     viewModel.saveAuthentication(loginState.token)
                     findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 }

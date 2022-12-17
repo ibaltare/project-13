@@ -37,11 +37,15 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun authTokenExist(): Boolean{
+        return repository.authTokenExist()
+    }
+
     fun saveAuthentication(token: String){
         repository.saveToken(token)
     }
 
-    fun setValueOnMainThread(value: LoginState) {
+    private fun setValueOnMainThread(value: LoginState) {
         viewModelScope.launch {
             _state.value = value
         }

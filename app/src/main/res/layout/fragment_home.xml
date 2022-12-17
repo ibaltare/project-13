@@ -28,15 +28,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!--
-    <Button
-        android:id="@+id/button_first"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:layout_marginBottom="@dimen/padding_16"
+        android:clickable="true"
+        android:src="@drawable/ic_like"
+        android:backgroundTint="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@+id/fabExit"
+        app:layout_constraintEnd_toEndOf="@+id/fabExit"
+        tools:ignore="ContentDescription"
+        android:focusable="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginLeft="@dimen/padding_8"
+        android:layout_marginBottom="@dimen/padding_16"
+        android:src="@drawable/ic_exit"
+        android:backgroundTint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_first" />-->
+        tools:ignore="ContentDescription"
+        android:focusable="true" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

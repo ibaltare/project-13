@@ -21,4 +21,8 @@ class SharedPreferencesImp @Inject constructor(private val sharedPreference: Sha
         return sharedPreference.getString(SHARED_PREFERENCES_TOKEN, null)
     }
 
+    override fun deleteToken() {
+        sharedPreference.edit().clear().apply()
+    }
+
 }

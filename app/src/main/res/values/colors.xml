@@ -10,4 +10,10 @@
 
     <color name="white_transparent">#DEFFFFFF</color>
     <color name="black_transparent">#CC18213C</color>
+
+    <color name="yellow">#FFffeb3b</color>
+    <color name="light_blue">#FF29b6f6</color>
+    <color name="orange">#FFfb8c00</color>
+
+
 </resources>

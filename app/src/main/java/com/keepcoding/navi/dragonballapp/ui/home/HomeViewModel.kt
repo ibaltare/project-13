@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keepcoding.navi.dragonballapp.domain.repository.HomeRepository
+import com.keepcoding.navi.dragonballapp.ui.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +22,14 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     val state: LiveData<HomeState>
         get() = _state
 
+    private fun setValueOnMainThread(value: HomeState) {
+        viewModelScope.launch {
+            _state.value = value
+        }
+    }
+
     fun getHeroes(){
+        setValueOnMainThread(HomeState.Loading)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO){
                 repository.getHeroes()
@@ -29,4 +37,14 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
             _state.value = result
         }
     }
+
+    fun Logout(){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                repository.deleteLocalData()
+            }
+            _state.value = HomeState.Logout
+        }
+    }
+
 }

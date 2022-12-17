@@ -1,6 +1,7 @@
 package com.keepcoding.navi.dragonballapp.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,7 +10,7 @@ import coil.load
 import com.keepcoding.navi.dragonballapp.databinding.HeroItemListBinding
 import com.keepcoding.navi.dragonballapp.domain.Hero
 
-class HeroListAdapter(private val clickListener: (Hero) -> (Unit)):
+class HeroListAdapter(private val clickListener: (String) -> (Unit)):
     ListAdapter<Hero,HeroListAdapter.HeroViewHolder>(HeroDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {
@@ -30,7 +31,7 @@ class HeroListAdapter(private val clickListener: (Hero) -> (Unit)):
 
         init {
             binding.root.setOnClickListener {
-                clickListener(hero)
+                clickListener(hero.id)
             }
         }
 
@@ -39,6 +40,7 @@ class HeroListAdapter(private val clickListener: (Hero) -> (Unit)):
             with(binding){
                 heroName.text = hero.name
                 heroImage.load(hero.photo)
+                heroLike.visibility = if (hero.favorite) View.VISIBLE else View.GONE
             }
         }
     }
