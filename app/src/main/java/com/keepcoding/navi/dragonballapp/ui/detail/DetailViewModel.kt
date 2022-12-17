@@ -29,10 +29,10 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
     fun getHeroDetail(heroId: String){
         setValueOnMainThread(DetailState.Loading)
         viewModelScope.launch {
-            val result = withContext(Dispatchers.IO){
+            val hero = withContext(Dispatchers.IO){
                 repository.getLocalHero(heroId)
             }
-            Log.d("DetailViewModel",result.toString())
+            _state.value = DetailState.SuccessLocalhero(hero)
         }
     }
 }

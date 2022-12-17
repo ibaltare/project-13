@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.keepcoding.navi.dragonballapp.R
 import com.keepcoding.navi.dragonballapp.databinding.FragmentDetailBinding
+import com.keepcoding.navi.dragonballapp.domain.HeroDetail
 import com.keepcoding.navi.dragonballapp.ui.home.HomeState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,10 +53,18 @@ class DetailFragment : Fragment() {
                 is DetailState.Loading -> {
                     showLoading(true)
                 }
-                is DetailState.Success -> {
-                    showLoading(false)
+                is DetailState.SuccessLocalhero -> {
+                    setHeroDetail(detailState.hero)
                 }
             }
+        }
+    }
+
+    private fun setHeroDetail(hero: HeroDetail){
+        with(binding){
+            heroImage.load(hero.photo)
+            heroName.text = hero.name
+            heroDetail.setText(hero.description)
         }
     }
 

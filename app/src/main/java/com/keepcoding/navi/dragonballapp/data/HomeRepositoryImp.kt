@@ -1,6 +1,5 @@
 package com.keepcoding.navi.dragonballapp.data
 
-import android.util.Log
 import com.keepcoding.navi.dragonballapp.data.local.AuthToken
 import com.keepcoding.navi.dragonballapp.data.local.LocalDataSource
 import com.keepcoding.navi.dragonballapp.data.mappers.EntityMapper
@@ -19,7 +18,6 @@ class HomeRepositoryImp @Inject constructor(
     private val entityMapper: EntityMapper) : HomeRepository {
 
     override suspend fun getRemoteHeroes(): HomeState {
-        Log.d("HomeRepositoryImp","Remoto")
         val result = remoteDataSource.getHeroes()
         return  when{
             result.isSuccess -> {
@@ -40,7 +38,6 @@ class HomeRepositoryImp @Inject constructor(
     override suspend fun getHeroes(): HomeState{
         val heroes =localDataSource.getHeroes()
         if (heroes.isNotEmpty()){
-            Log.d("HomeRepositoryImp","Local")
             return HomeState.Success(presentationMapper.entityMap(heroes))
         }
         return getRemoteHeroes()
