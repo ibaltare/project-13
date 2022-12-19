@@ -27,8 +27,8 @@
             tools:ignore="ContentDescription" />
         <ImageView
             android:id="@+id/hero_like"
-            android:layout_width="@dimen/padding_32"
-            android:layout_height="@dimen/padding_32"
+            android:layout_width="@dimen/btn_like"
+            android:layout_height="@dimen/btn_like"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/padding_8"

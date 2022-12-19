@@ -14,6 +14,7 @@ import com.keepcoding.navi.dragonballapp.R
 import com.keepcoding.navi.dragonballapp.databinding.FragmentDetailBinding
 import com.keepcoding.navi.dragonballapp.domain.HeroDetail
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.jvm.internal.impl.types.checker.TypeRefinementSupport.Enabled
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -52,12 +53,12 @@ class DetailFragment : Fragment() {
                     showMessage(detailState.message)
                 }
                 is DetailState.Loading -> {
-                    showLoading(true)
+                    showLoading(detailState.show)
                 }
-                is DetailState.SuccessLocalhero -> {
+                is DetailState.SuccessLocalHero -> {
                     setHeroDetail(detailState.hero)
                 }
-                is DetailState.SuccessHeroLocalization -> {
+                is DetailState.SuccessLocalizationHero -> {
                     showLoading(false)
                 }
             }
@@ -68,6 +69,10 @@ class DetailFragment : Fragment() {
                 true -> binding.fabLike.backgroundTintList = AppCompatResources.getColorStateList(binding.root.context, R.color.orange)
                 false -> binding.fabLike.backgroundTintList = AppCompatResources.getColorStateList(binding.root.context, R.color.teal_200)
             }
+        }
+
+        viewModel.btnLike.observe(viewLifecycleOwner){ enabled ->
+            enabledLikeButton(enabled)
         }
     }
 
@@ -86,6 +91,11 @@ class DetailFragment : Fragment() {
     private fun showLoading(show: Boolean){
         binding.pbDetail.visibility = if (show) View.VISIBLE else View.GONE
     }
+
+    private fun enabledLikeButton(enabled:Boolean){
+        binding.fabLike.isEnabled = enabled
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

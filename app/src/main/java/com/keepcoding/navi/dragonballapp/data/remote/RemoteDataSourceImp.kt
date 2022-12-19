@@ -19,8 +19,8 @@ class RemoteDataSourceImp @Inject constructor(private val api: DragonBallAPI): R
         return runCatching { api.getHeroes(HeroRequest()) }
     }
 
-    override suspend fun setHeroLike(hero: String) {
-        api.setHeroLike(HeroLikeRequest(hero))
+    override suspend fun setHeroLike(hero: String): Result<Unit> {
+        return runCatching { api.setHeroLike(HeroLikeRequest(hero)) }
     }
 
     override suspend fun getHeroLocalizations(id: String): Result<List<LocalizationDTO>> {

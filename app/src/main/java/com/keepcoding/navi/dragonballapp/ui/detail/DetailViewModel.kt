@@ -30,38 +30,53 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
     val like: LiveData<Boolean>
         get() = _like
 
+    private val _btnLike: MutableLiveData<Boolean>by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val btnLike: LiveData<Boolean>
+        get() = _btnLike
+
     private fun setValueOnMainThread(value: DetailState){
         viewModelScope.launch { _state.value = value }
     }
 
     fun getHeroDetail(heroId: String){
-        setValueOnMainThread(DetailState.Loading)
+        setValueOnMainThread(DetailState.Loading(true))
         viewModelScope.launch {
             val hero = withContext(Dispatchers.IO){
                 repository.getLocalHero(heroId)
             }
             _heroDetail = hero
-            _state.value = DetailState.SuccessLocalhero(hero)
+            _state.value = DetailState.SuccessLocalHero(_heroDetail)
             _like.value = _heroDetail.favorite
-
+            _btnLike.value = true
             val localization = withContext(Dispatchers.IO){
                 repository.getHeroLocalizations(hero.id)
             }
             Log.d("LOCALIZATIONS",localization.toString())
-            _state.value = DetailState.SuccessHeroLocalization(null)
+            _state.value = DetailState.SuccessLocalizationHero(null)
         }
     }
 
     fun setHeroLike(){
+        setValueOnMainThread(DetailState.Loading(true))
         viewModelScope.launch{
-            withContext(Dispatchers.IO){
+            _btnLike.value = false
+            val result = withContext(Dispatchers.IO){
                 repository.setHeroLike(_heroDetail.id)
-                _heroDetail.favorite = !_heroDetail.favorite
-                repository.updateLocalHero(_heroDetail)
             }
-            withContext(Dispatchers.Main){
-                _like.value = _heroDetail.favorite
+            when(result){
+                is LikeResultState.SuccessLikeHero -> {
+                    _heroDetail.favorite = !_heroDetail.favorite
+                    withContext(Dispatchers.IO){
+                        repository.updateLocalHero(_heroDetail)
+                    }
+                    _like.value = _heroDetail.favorite
+                    _state.value = DetailState.Loading(false)
+                }
+                is LikeResultState.Failure -> _state.value = DetailState.Failure(result.message)
             }
+            _btnLike.value = true
         }
     }
 }
