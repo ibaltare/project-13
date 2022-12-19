@@ -46,6 +46,7 @@ class FavoriteFragment : Fragment() {
                 is FavoriteState.Failure -> {
                     showLoading(false)
                     showMessage(state.message)
+                    adapter.submitList(null)
                 }
                 is FavoriteState.Loading -> showLoading(true)
                 is FavoriteState.Success -> {
