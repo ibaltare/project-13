@@ -1,12 +1,10 @@
 package com.keepcoding.navi.dragonballapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keepcoding.navi.dragonballapp.domain.repository.HomeRepository
-import com.keepcoding.navi.dragonballapp.ui.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +36,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
         }
     }
 
-    fun Logout(){
+    fun logout(){
         viewModelScope.launch{
             withContext(Dispatchers.IO){
                 repository.deleteLocalData()

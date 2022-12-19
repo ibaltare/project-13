@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_DetailFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_DetailFragment_to_FavoriteFragment"
+            app:destination="@id/FavoriteFragment" />
         <argument
             android:name="heroId"
             app:nullable="false"
@@ -51,5 +54,8 @@
         <action
             android:id="@+id/action_FavoriteFragment_to_HomeFragment"
             app:destination="@id/HomeFragment" />
+        <action
+            android:id="@+id/action_FavoriteFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
     </fragment>
 </navigation>

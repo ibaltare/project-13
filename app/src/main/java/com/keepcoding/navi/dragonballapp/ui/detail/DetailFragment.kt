@@ -14,7 +14,6 @@ import com.keepcoding.navi.dragonballapp.R
 import com.keepcoding.navi.dragonballapp.databinding.FragmentDetailBinding
 import com.keepcoding.navi.dragonballapp.domain.HeroDetail
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.reflect.jvm.internal.impl.types.checker.TypeRefinementSupport.Enabled
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
