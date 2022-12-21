@@ -1,6 +1,6 @@
 package com.keepcoding.navi.dragonballapp.ui.detail
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -53,8 +53,7 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
             val localization = withContext(Dispatchers.IO){
                 repository.getHeroLocalizations(hero.id)
             }
-            Log.d("LOCALIZATIONS",localization.toString())
-            _state.value = DetailState.SuccessLocalizationHero(null)
+            _state.value = localization
         }
     }
 

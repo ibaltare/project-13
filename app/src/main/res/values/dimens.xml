@@ -7,4 +7,5 @@
     <dimen name="btn_like">40dp</dimen>
     <dimen name="card_height">350dp</dimen>
     <dimen name="card_image_height">300dp</dimen>
+    <dimen name="map_height">400dp</dimen>
 </resources>

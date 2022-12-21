@@ -10,18 +10,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.keepcoding.navi.dragonballapp.R
 import com.keepcoding.navi.dragonballapp.databinding.FragmentDetailBinding
 import com.keepcoding.navi.dragonballapp.domain.HeroDetail
+import com.keepcoding.navi.dragonballapp.domain.Localization
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val args: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels()
+    private lateinit var map:GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +41,8 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
         setObservers()
         setListeners()
         viewModel.getHeroDetail(args.heroId)
@@ -59,6 +69,7 @@ class DetailFragment : Fragment() {
                 }
                 is DetailState.SuccessLocalizationHero -> {
                     showLoading(false)
+                    detailState.localizations?.forEach { addMarkerLocation(it) }
                 }
             }
         }
@@ -81,6 +92,19 @@ class DetailFragment : Fragment() {
             heroName.text = hero.name
             heroDetail.setText(hero.description)
         }
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        map = p0
+        map.uiSettings.isZoomControlsEnabled =  true
+    }
+
+    private fun addMarkerLocation(location: Localization){
+        val place = LatLng(location.latitud, location.longitud)
+        map.addMarker(
+            MarkerOptions()
+            .position(place))
+        map.moveCamera(CameraUpdateFactory.newLatLng(place))
     }
 
     private fun showMessage(message: String){
