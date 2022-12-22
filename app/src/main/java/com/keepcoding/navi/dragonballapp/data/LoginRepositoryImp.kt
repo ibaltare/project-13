@@ -1,6 +1,5 @@
 package com.keepcoding.navi.dragonballapp.data
 
-import android.util.Log
 import com.keepcoding.navi.dragonballapp.data.local.AuthToken
 import com.keepcoding.navi.dragonballapp.data.remote.RemoteDataSource
 import com.keepcoding.navi.dragonballapp.domain.repository.LoginRepository
