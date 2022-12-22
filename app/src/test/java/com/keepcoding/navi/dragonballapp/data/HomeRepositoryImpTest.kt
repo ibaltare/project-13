@@ -5,12 +5,12 @@ import com.keepcoding.navi.dragonballapp.data.local.AuthToken
 import com.keepcoding.navi.dragonballapp.data.local.LocalDataSource
 import com.keepcoding.navi.dragonballapp.data.mappers.EntityMapper
 import com.keepcoding.navi.dragonballapp.data.mappers.PresentationMapper
-import com.keepcoding.navi.dragonballapp.data.remote.RemoteDataSource
 import com.keepcoding.navi.dragonballapp.fakes.FakeLocalDataSource
 import com.keepcoding.navi.dragonballapp.fakes.FakeRemoteDataSource
 import com.keepcoding.navi.dragonballapp.ui.home.HomeState
-import com.keepcoding.navi.dragonballapp.ui.login.LoginState
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -72,6 +72,7 @@ class HomeRepositoryImpTest {
         //then
         Truth.assertThat(actual).isInstanceOf(HomeState::class.java)
         Truth.assertThat(actual).isInstanceOf(HomeState.Success::class.java)
+        Truth.assertThat((actual as HomeState.Success).heroes.count()).isGreaterThan(0)
     }
 
     @Test
@@ -92,5 +93,24 @@ class HomeRepositoryImpTest {
         //then
         Truth.assertThat(actual).isInstanceOf(HomeState::class.java)
         Truth.assertThat(actual).isInstanceOf(HomeState.Failure::class.java)
+    }
+
+    @Test
+    fun `When deleteLocalData call deleteToken`() = runTest{
+        //given
+        val remoteDataSource = FakeRemoteDataSource(true)
+        homeRepositoryImp = HomeRepositoryImp(
+            remoteDataSource,
+            localDataSource,
+            authToken,
+            presentationMapper,
+            entityMapper
+        )
+        every { authToken.deleteToken() } returns Unit
+        //when
+        homeRepositoryImp.deleteLocalData()
+
+        //then
+        verify(exactly = 1) { authToken.deleteToken() }
     }
 }

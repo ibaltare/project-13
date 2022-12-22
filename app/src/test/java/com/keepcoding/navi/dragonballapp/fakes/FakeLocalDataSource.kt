@@ -4,10 +4,11 @@ import com.keepcoding.navi.dragonballapp.data.local.LocalDataSource
 import com.keepcoding.navi.dragonballapp.data.local.model.HeroEntity
 import com.keepcoding.navi.dragonballapp.utils.Generator
 
-class FakeLocalDataSource: LocalDataSource {
+class FakeLocalDataSource(private val success: Boolean = true): LocalDataSource {
 
     override fun getHeroes(): List<HeroEntity> {
-        return Generator.getHeroEntityList()
+        if (success) return Generator.getHeroEntityList()
+        return emptyList()
     }
 
     override fun insertHeroes(heroDto: List<HeroEntity>) {  }
@@ -17,7 +18,8 @@ class FakeLocalDataSource: LocalDataSource {
     override fun deleteHeroes() {  }
 
     override fun getHeroesByFavorite(favorite: Boolean): List<HeroEntity> {
-        return Generator.getHeroEntityList()
+        if (success) return Generator.getHeroEntityList()
+        return emptyList()
     }
 
     override fun getHeroById(id: String): HeroEntity {
