@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
         setObservers()
         setListeners()
         createRecycler()
+        viewModel.loadingState()
         viewModel.getHeroes()
     }
 

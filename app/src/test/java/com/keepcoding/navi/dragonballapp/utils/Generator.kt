@@ -4,9 +4,21 @@ import com.keepcoding.navi.dragonballapp.data.local.model.HeroEntity
 import com.keepcoding.navi.dragonballapp.data.remote.response.HeroDTO
 import com.keepcoding.navi.dragonballapp.data.remote.response.HeroID
 import com.keepcoding.navi.dragonballapp.data.remote.response.LocalizationDTO
+import com.keepcoding.navi.dragonballapp.domain.Hero
 import com.keepcoding.navi.dragonballapp.domain.HeroDetail
 
 object Generator {
+
+    fun getHeroList(): List<Hero> {
+        return (0 until 10).map {
+            Hero(
+                "ID: $it",
+                "Name $it",
+                "Photo $it",
+                false
+            )
+        }
+    }
 
     fun getHeroEntityList(): List<HeroEntity> {
         return (0 until 10).map {

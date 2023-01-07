@@ -41,6 +41,7 @@ class LoginFragment : Fragment() {
 
     private fun setListeners() {
         binding.btnLogin.setOnClickListener {
+            viewModel.loadingState()
             viewModel.doLogin(binding.etEmail.text.toString(), binding.etPassword.text.toString())
         }
     }

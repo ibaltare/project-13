@@ -25,7 +25,6 @@ class LoginViewModel @Inject constructor(
         if(user.isBlank() || password.isBlank()){
             setValueOnMainThread(LoginState.Failure("Usuario o contraseña incorrecto"))
         }else{
-            setValueOnMainThread(LoginState.Loading)
             viewModelScope.launch {
                 val response = withContext(Dispatchers.IO){
                     repository.doLogin(user,password)
@@ -33,6 +32,10 @@ class LoginViewModel @Inject constructor(
                 _state.value = response
             }
         }
+    }
+
+    fun loadingState(){
+        setValueOnMainThread(LoginState.Loading)
     }
 
     fun authTokenExist(): Boolean{

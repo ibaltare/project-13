@@ -27,13 +27,16 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     }
 
     fun getHeroes(){
-        setValueOnMainThread(HomeState.Loading)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO){
                 repository.getHeroes()
             }
             _state.value = result
         }
+    }
+
+    fun loadingState() {
+        setValueOnMainThread(HomeState.Loading)
     }
 
     fun logout(){
