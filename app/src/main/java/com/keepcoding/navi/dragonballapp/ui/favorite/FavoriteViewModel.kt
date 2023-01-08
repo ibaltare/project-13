@@ -27,11 +27,14 @@ class FavoriteViewModel @Inject constructor(private val repository: FavoriteRepo
     }
 
     fun getHeroes(){
-        setValueOnMainThread(FavoriteState.Loading)
         viewModelScope.launch {
             _state.value = withContext(Dispatchers.IO){
                 repository.getLocalFavoriteHeroes()
             }
         }
+    }
+
+    fun loadingState(){
+        setValueOnMainThread(FavoriteState.Loading)
     }
 }

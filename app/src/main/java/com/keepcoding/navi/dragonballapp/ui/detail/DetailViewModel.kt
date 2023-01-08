@@ -41,7 +41,6 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
     }
 
     fun getHeroDetail(heroId: String){
-        setValueOnMainThread(DetailState.Loading(true))
         viewModelScope.launch {
             val hero = withContext(Dispatchers.IO){
                 repository.getLocalHero(heroId)
@@ -58,7 +57,6 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
     }
 
     fun setHeroLike(){
-        setValueOnMainThread(DetailState.Loading(true))
         viewModelScope.launch{
             _btnLike.value = false
             val result = withContext(Dispatchers.IO){
@@ -78,4 +76,9 @@ class DetailViewModel @Inject constructor(private val repository: DetailReposito
             _btnLike.value = true
         }
     }
+
+    fun loadingState(){
+        setValueOnMainThread(DetailState.Loading(true))
+    }
+
 }

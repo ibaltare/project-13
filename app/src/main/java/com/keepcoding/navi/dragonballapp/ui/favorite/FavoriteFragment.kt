@@ -37,6 +37,7 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         createRecycler()
+        viewModel.loadingState()
         viewModel.getHeroes()
     }
 

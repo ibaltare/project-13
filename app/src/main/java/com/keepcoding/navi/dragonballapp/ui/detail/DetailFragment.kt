@@ -45,11 +45,13 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
         setObservers()
         setListeners()
+        viewModel.loadingState()
         viewModel.getHeroDetail(args.heroId)
     }
 
     private fun setListeners() {
         binding.fabLike.setOnClickListener {
+            viewModel.loadingState()
             viewModel.setHeroLike()
         }
     }

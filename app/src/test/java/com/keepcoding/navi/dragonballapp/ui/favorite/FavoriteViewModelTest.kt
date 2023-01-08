@@ -1,8 +1,8 @@
-package com.keepcoding.navi.dragonballapp.ui.home
+package com.keepcoding.navi.dragonballapp.ui.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth
-import com.keepcoding.navi.dragonballapp.domain.repository.HomeRepository
+import com.keepcoding.navi.dragonballapp.domain.repository.FavoriteRepository
 import com.keepcoding.navi.dragonballapp.utils.Generator
 import com.keepcoding.navi.dragonballapp.utils.getOrAwaitValue
 import io.mockk.coEvery
@@ -21,15 +21,15 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HomeViewModelTest {
+class FavoriteViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
     //SUT
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var favoriteViewModel: FavoriteViewModel
     //Dependencies
-    private lateinit var repository: HomeRepository
+    private lateinit var repository: FavoriteRepository
 
     @Before
     fun setup(){
@@ -43,18 +43,18 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `When getHeroes expects success returns list of super heroes`() = runTest{
+    fun `When getHeroes expects success returns list of favorite heroes`() = runTest{
         //given
         repository = mockk()
-        homeViewModel = HomeViewModel(repository)
-        coEvery { repository.getHeroes() } returns HomeState.Success(Generator.getHeroList())
+        favoriteViewModel = FavoriteViewModel(repository)
+        coEvery { repository.getLocalFavoriteHeroes() } returns FavoriteState.Success(Generator.getHeroList())
 
         //when
-        homeViewModel.getHeroes()
-        val actualLiveData = homeViewModel.state.getOrAwaitValue()
+        favoriteViewModel.getHeroes()
+        val actualLiveData = favoriteViewModel.state.getOrAwaitValue()
 
         //then
-        Truth.assertThat((actualLiveData as HomeState.Success).heroes)
+        Truth.assertThat((actualLiveData as FavoriteState.Success).heroes)
             .containsExactlyElementsIn(Generator.getHeroList())
     }
 
@@ -62,14 +62,15 @@ class HomeViewModelTest {
     fun `When getHeroes expects failure state`() = runTest{
         //given
         repository = mockk()
-        homeViewModel = HomeViewModel(repository)
-        coEvery { repository.getHeroes() } returns HomeState.Failure("Error")
+        favoriteViewModel = FavoriteViewModel(repository)
+        coEvery { repository.getLocalFavoriteHeroes() } returns FavoriteState.Failure("Error")
 
         //when
-        homeViewModel.getHeroes()
-        val actualLiveData = homeViewModel.state.getOrAwaitValue()
+        favoriteViewModel.getHeroes()
+        val actualLiveData = favoriteViewModel.state.getOrAwaitValue()
 
         //then
-        Truth.assertThat(actualLiveData).isInstanceOf(HomeState.Failure::class.java)
+        Truth.assertThat(actualLiveData).isInstanceOf(FavoriteState.Failure::class.java)
     }
+
 }
